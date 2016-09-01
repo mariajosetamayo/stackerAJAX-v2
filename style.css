@@ -1,3 +1,4 @@
+
 .container {
 	margin: 3em auto;
 	width: 600px;
@@ -12,7 +13,7 @@
 }
 
 .stack-image {
-	background: url('../images/stack-icon.png') no-repeat center center;
+	background: url('images/stack-icon.png') no-repeat center center;
 	width: 200px;
 	height: 200px;
 	-webkit-background-size: cover;
@@ -45,3 +46,6 @@
 	background-color: #F78181;
 	padding: 1em;
 }
+ dt{
+ 	font-weight: bold;
+ }

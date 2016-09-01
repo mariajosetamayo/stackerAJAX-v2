@@ -20,12 +20,12 @@
 			<h3>Get Unanswered Questions</h3>
 			<p>Find unanswered questions by tag. For multiple tags, use a semi-colon to separate.</p>
 			<form class="unanswered-getter">
-				<input type="text" placeholder='e.g., "HTML" or "HTML;CSS"' name="tags" size="30" autofocus required>
+				<input type="text" id="inputTag" placeholder='e.g., "HTML" or "HTML;CSS"' name="tags" size="30" autofocus required>
 				<input type="submit" value="Submit">
 			</form>
 			<h3>View the Top Answerers for a Tag</h3>
 			<form class="inspiration-getter">
-				<input type="text" placeholder="e.g., jQuery" name="answerers" size="30"  required>
+				<input type="text" id="inputTag2" placeholder="e.g., jQuery" name="answerers" size="30"  required>
 				<input type="submit" value="Submit">
 			</form>
 		</div>
@@ -36,25 +36,25 @@
 	</div>
 	<div class="templates hidden">
 		<dl class="result question">
-			<dt>Question</dt>
-				<dd class="question-text"><a href="" target="_blank"></a></dd>
-			<dt>Asked</dt>
-				<dd class="asked-date"></dd>
-			<dt>Viewed</dt>
-				<dd class="viewed"></dd>
+			<dt>Question</dt><br>
+				<dd class="question-text"><a href="" target="_blank"></a></dd><br>
+			<dt>Asked</dt><br>
+				<dd class="asked-date"></dd><br>
+			<dt>Viewed</dt><br>
+				<dd class="viewed"></dd><br>
 			<dt>Asker</dt>
 				<dd class="asker"></dd>
 		</dl>
 		<dl class="answerer tag">
-			<dt>User</dt>
-				<dd class="user"><a href="" target="_blank"></a></dd>
+			<dt>User</dt><br>
+				<dd class="user"><a href="" target="_blank"></a></dd><br>
 			<!-- <dt>Profile link</dt> -->
 				<!-- <dd class="profile_link"> -->
-			<dt>User Type</dt>
-				<dd class="user_type"></dd>
-			<dt>Acceptance Rate</dt>
-				<dd class="acceptance_rate"></dd>
-			<dt>Score</dt>
+			<dt>User Type</dt><br>
+				<dd class="user_type"></dd><br>
+			<dt>Acceptance Rate</dt><br>
+				<dd class="acceptance_rate"></dd><br>
+			<dt>Score</dt><br>
 				<dd class="score"></dd>
 		</dl>
 		<div class="error">

@@ -6,6 +6,7 @@ $(document).ready( function() {
 		// get the value of the tags the user submitted
 		var tags = $(this).find("input[name='tags']").val();
 		getUnanswered(tags);
+		document.getElementById("inputTag").value = ""
 	});
 	
 
@@ -16,6 +17,7 @@ $(document).ready( function() {
 		// get the value of the tags the user submitted
 		var tags = $(this).find("input[name='answerers']").val();
 		getInspiration(tags);
+		document.getElementById("inputTag2").value = ""
 	});
 
 });
