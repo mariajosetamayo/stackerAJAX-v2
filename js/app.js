@@ -47,7 +47,7 @@ var showQuestion = function(question) {
 	//<--* set some properties related to asker *-->
 	var asker = result.find('.asker');
 	asker.html('<p>Name: <a target="_blank" '+
-		'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
+		'href=https://stackoverflow.com/users/' + question.owner.user_id + ' >' +
 		question.owner.display_name +
 		'</a></p>' +
 		'<p>Reputation: ' + question.owner.reputation + '</p>'
@@ -122,7 +122,7 @@ var getUnanswered = function(tags) {
 	};
 	
 	$.ajax({
-		url: "http://api.stackexchange.com/2.2/questions/unanswered",
+		url: "https://api.stackexchange.com/2.2/questions/unanswered",
 		data: request,
 		dataType: "jsonp",//<--* use jsonp to avoid cross origin issues *-->
 		type: "POST",
@@ -159,7 +159,7 @@ var getInspiration = function(tags){
 
 	$.ajax({
 		//<--* url changes from format in unanswered questions. Had to add +tags+ as requested by the API documentation. It is also different because it is not requesting data, instead we are sending data. *-->
-		url: "http://api.stackexchange.com/2.2/tags/"+tags+"/top-answerers/all_time?site=stackoverflow",
+		url: "https://api.stackexchange.com/2.2/tags/"+tags+"/top-answerers/all_time?site=stackoverflow",
 		dataType: "jsonp",//<--* use jsonp to avoid cross origin issues *-->
 		type: "GET",
 	})
