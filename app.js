@@ -8,19 +8,17 @@ $(document).ready( function() {
 		getUnanswered(tags);
 	});
 	
+
+	$('.inspiration-getter').submit( function(e){
+		e.preventDefault();
+		// zero out results if previous search has run
+		$('.results').html('');
+		// get the value of the tags the user submitted
+		var tags = $(this).find("input[name='answerers']").val();
+		getInspiration(tags);
+	});
+
 });
-
-$('.inspiration-getter').submit( function(e){
-	e.preventDefault();
-	// zero out results if previous search has run
-	$('.results').html('');
-	// get the value of the tags the user submitted
-	var tags = $(this).find("input[name='answerers']").val();
-	getInspiration(tags);
-});
-
-
-
 
 
 // this function takes the question object returned by the StackOverflow request
@@ -81,23 +79,25 @@ var showAnswerer = function(answerer) {
 	var result2 = $('.templates .answerer').clone();
 	
 	// Set the name of the answerer properties in result
-	var nameAnswerer = result2.find('.user_name');
+	var nameAnswerer = result2.find('.user a');
 	// nameAnswerer.attr('href', question.link);
-	nameAnswerer.text(answerer.display_name);
+	nameAnswerer.attr('href', answerer.user.link);
+	nameAnswerer.text(answerer.user.display_name);
 
 	// set the profile picture property in result
-	var profilePic = result2.find('.profile_pic');
+	// var profileLink = result2.find('.profile_link a');
 	// var date = new Date(1000*question.creation_date);
 	// asked.text(date.toString());
-	profilePic.attr('src', answerer.profile_image);
+	// profileLink.attr('href', answerer.user.link);
+	// profileLink.text(answerer.user.display_name);
 
 	// set the user type for answerers property in result
 	var userType = result2.find('.user_type');
-	userType.text(answerer.user_type);
+	userType.text(answerer.user.user_type);
 
 	// set acceptance rate properties related to answerer
 	var acceptanceRate = result2.find('.acceptance_rate');
-	acceptanceRate.text(answerer.accept_rate)
+	acceptanceRate.text(answerer.user.accept_rate)
 
 	var answererScore = result2.find('.score');
 	answererScore.text(answerer.score)
@@ -209,8 +209,8 @@ var getInspiration = function(tags){
 		//$.each is a higher order function. It takes an array and a function as an argument.
 		//The function is executed once for each item in the array.
 		$.each(result.items, function(i, item) {
-			var question = showQuestion(item);
-			$('.results').append(question);
+			var answerers = showAnswerer(item);
+			$('.results').append(answerers);
 		});
 	})
 	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
