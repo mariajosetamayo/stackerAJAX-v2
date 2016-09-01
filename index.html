@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Stack Overflow AJAX Demo</title>
 	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
 	<div class="container">
@@ -21,12 +22,12 @@
 			<p>Find unanswered questions by tag. For multiple tags, use a semi-colon to separate.</p>
 			<form class="unanswered-getter">
 				<input type="text" id="inputTag" placeholder='e.g., "HTML" or "HTML;CSS"' name="tags" size="30" autofocus required>
-				<input type="submit" value="Submit">
+				<input type="submit" value="Submit" class="button">
 			</form>
 			<h3>View the Top Answerers for a Tag</h3>
 			<form class="inspiration-getter">
 				<input type="text" id="inputTag2" placeholder="e.g., jQuery" name="answerers" size="30"  required>
-				<input type="submit" value="Submit">
+				<input type="submit" value="Submit" class="button">
 			</form>
 		</div>
 		<div class="results-container">
@@ -48,8 +49,9 @@
 		<dl class="answerer tag">
 			<dt>User</dt><br>
 				<dd class="user"><a href="" target="_blank"></a></dd><br>
-			<!-- <dt>Profile link</dt> -->
-				<!-- <dd class="profile_link"> -->
+				<dd class="profile_pic"><img src=""></dd><br>
+			<dt>Reputation</dt><br>
+				<dd class="reputation"></dd><br>
 			<dt>User Type</dt><br>
 				<dd class="user_type"></dd><br>
 			<dt>Acceptance Rate</dt><br>

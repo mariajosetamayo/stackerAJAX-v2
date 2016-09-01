@@ -1,9 +1,9 @@
 $(document).ready( function() {	
 	$('.unanswered-getter').submit( function(e){
 		e.preventDefault();
-		// zero out results if previous search has run
+		//<--* zero out results if previous search has run *-->
 		$('.results').html('');
-		// get the value of the tags the user submitted
+		//<--* get the value of the tags the user submitted *-->
 		var tags = $(this).find("input[name='tags']").val();
 		getUnanswered(tags);
 		document.getElementById("inputTag").value = ""
@@ -12,9 +12,9 @@ $(document).ready( function() {
 
 	$('.inspiration-getter').submit( function(e){
 		e.preventDefault();
-		// zero out results if previous search has run
+		//<--* zero out results if previous search has run *-->
 		$('.results').html('');
-		// get the value of the tags the user submitted
+		//<--* get the value of the tags the user submitted *-->
 		var tags = $(this).find("input[name='answerers']").val();
 		getInspiration(tags);
 		document.getElementById("inputTag2").value = ""
@@ -23,28 +23,28 @@ $(document).ready( function() {
 });
 
 
-// this function takes the question object returned by the StackOverflow request
-// and returns new result to be appended to DOM
+//<--* this function takes the question object returned by the StackOverflow request
+// and returns new result to be appended to DOM *-->
 var showQuestion = function(question) {
 	
-	// clone our result template code
+	//<--* clone our result template code *-->
 	var result = $('.templates .question').clone();
 	
-	// Set the question properties in result
+	//<--* Set the question properties in result *-->
 	var questionElem = result.find('.question-text a');
 	questionElem.attr('href', question.link);
 	questionElem.text(question.title);
 
-	// set the date asked property in result
+	//<--* set the date asked property in result *-->
 	var asked = result.find('.asked-date');
 	var date = new Date(1000*question.creation_date);
 	asked.text(date.toString());
 
-	// set the .viewed for question property in result
+	//<--* set the .viewed for question property in result *-->
 	var viewed = result.find('.viewed');
 	viewed.text(question.view_count);
 
-	// set some properties related to asker
+	//<--* set some properties related to asker *-->
 	var asker = result.find('.asker');
 	asker.html('<p>Name: <a target="_blank" '+
 		'href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
@@ -57,14 +57,14 @@ var showQuestion = function(question) {
 };
 
 
-// this function takes the results object from StackOverflow
-// and returns the number of results and tags to be appended to DOM
+//<--* this function takes the results object from StackOverflow
+// and returns the number of results and tags to be appended to DOM *-->
 var showSearchResults = function(query, resultNum) {
 	var results = resultNum + ' results for <strong>' + query + '</strong>';
 	return results;
 };
 
-// takes error string and turns it into displayable DOM element
+//<--* takes error string and turns it into displayable DOM element
 var showError = function(error){
 	var errorElem = $('.templates .error').clone();
 	var errorText = '<p>' + error + '</p>';
@@ -73,34 +73,35 @@ var showError = function(error){
 
 
 
-// this function takes the question object returned by the StackOverflow request
-// and returns new result to be appended to DOM
+//<--* this function takes the answerer object returned by the StackOverflow request
+// and returns new result to be appended to DOM *-->
 var showAnswerer = function(answerer) {
 	
-	// clone our result template code
+	//<--* clone our result template code *-->
 	var result2 = $('.templates .answerer').clone();
 	
-	// Set the name of the answerer properties in result
+	//<--* Set the name of the answerer properties in result *-->
 	var nameAnswerer = result2.find('.user a');
-	// nameAnswerer.attr('href', question.link);
 	nameAnswerer.attr('href', answerer.user.link);
 	nameAnswerer.text(answerer.user.display_name);
+	
+	// <--* Set the profile image of the answerer in result *-->
+	var nameAnswerer = result2.find('.profile_pic img');
+	nameAnswerer.attr('src', answerer.user.profile_image);
+	
+	//<--* Set the reputation score for answerer property in result *-->
+	var reputation = result2.find('.reputation');
+	reputation.text(answerer.user.reputation);
 
-	// set the profile picture property in result
-	// var profileLink = result2.find('.profile_link a');
-	// var date = new Date(1000*question.creation_date);
-	// asked.text(date.toString());
-	// profileLink.attr('href', answerer.user.link);
-	// profileLink.text(answerer.user.display_name);
-
-	// set the user type for answerers property in result
+	//<--* set the user type for answerers property in result *-->
 	var userType = result2.find('.user_type');
 	userType.text(answerer.user.user_type);
 
-	// set acceptance rate properties related to answerer
+	//<--* set acceptance rate properties related to answerer *-->
 	var acceptanceRate = result2.find('.acceptance_rate');
 	acceptanceRate.text(answerer.user.accept_rate)
 
+	//<--*  Set the score for answerer *-->
 	var answererScore = result2.find('.score');
 	answererScore.text(answerer.score)
 
@@ -108,25 +109,11 @@ var showAnswerer = function(answerer) {
 };
 
 
-// this function takes the results object from StackOverflow
-// and returns the number of results and tags to be appended to DOM
-// var showSearchResults = function(query, resultNum) {
-// 	var results = resultNum + ' results for <strong>' + query + '</strong>';
-// 	return results;
-// };
-
-// takes error string and turns it into displayable DOM element
-// var showError = function(error){
-// 	var errorElem = $('.templates .error').clone();
-// 	var errorText = '<p>' + error + '</p>';
-// 	errorElem.append(errorText);
-// };
-
-// takes a string of semi-colon separated tags to be searched
-// for on StackOverflow
+//<--* takes a string of semi-colon separated tags to be searched 
+// for on StackOverflow *-->
 var getUnanswered = function(tags) {
 
-	// the parameters we need to pass in our request to StackOverflow's API
+	//<--* the parameters we need to pass in our request to StackOverflow's API *-->
 	var request = { 
 		tagged: tags,
 		site: 'stackoverflow',
@@ -137,57 +124,32 @@ var getUnanswered = function(tags) {
 	$.ajax({
 		url: "http://api.stackexchange.com/2.2/questions/unanswered",
 		data: request,
-		dataType: "jsonp",//use jsonp to avoid cross origin issues
+		dataType: "jsonp",//<--* use jsonp to avoid cross origin issues *-->
 		type: "POST",
 	})
-// .done(function (response) {
-	// 	console.log("YISS",response)
-	// })
 
-	// app.get('/myEndpoint',function (req, res) {
-	// 	res.send('you hit me bro!')
-	// })
-
-	// app.get("http://api.stackexchange.com/2.2/tags/{tags}/top-answerers/all_time?site=stackoverflow",function (req, res) {
-	// 	res.send(tags)
-	// })
-
-	// app.post('/myEndpoint2',function (req, res) {
-	// 	res.send('you hit me with ' + req.body + ' bro!')
-	// })
-
-	// function makeMyGetRequest (inputString) {
-	// 	$.ajax({
-	// 		url: "http://api.stackexchange.com/2.2/tags/thisHandlesPosts",
-	// 		data: {
-	// 			queryString : inputString,
-	// 		}
-	// 		dataType: "jsonp",//use jsonp to avoid cross origin issues
-	// 		type: "GET",
-	// 	})
-	// }
-
-	// 
-	.done(function(result){ //this waits for the ajax to return with a succesful promise object
+	.done(function(result){ //<--* this waits for the ajax to return with a succesful promise object *-->
 		console.log("YISS",result)
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
 		$('.search-results').html(searchResults);
-		//$.each is a higher order function. It takes an array and a function as an argument.
+		
+		//<--* $.each is a higher order function. It takes an array and a function as an argument. *-->
 		//The function is executed once for each item in the array.
 		$.each(result.items, function(i, item) {
 			var question = showQuestion(item);
 			$('.results').append(question);
 		});
 	})
-	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
+	
+	.fail(function(jqXHR, error){ //<--* this waits for the ajax to return with an error promise object *-->
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
 };
 
 var getInspiration = function(tags){
-	// the parameters we need to pass in our request to StackOverflow's API
+	//<--* the parameters we need to pass in our request to StackOverflow's API *-->
 	var request = { 
 		tagged: tags,
 		site: 'stackoverflow',
@@ -196,26 +158,26 @@ var getInspiration = function(tags){
 	};
 
 	$.ajax({
-		// url: "http://api.stackexchange.com/2.2/tags/{tag}/top-answerers/{period}",
+		//<--* url changes from format in unanswered questions. Had to add +tags+ as requested by the API documentation. It is also different because it is not requesting data, instead we are sending data. *-->
 		url: "http://api.stackexchange.com/2.2/tags/"+tags+"/top-answerers/all_time?site=stackoverflow",
-		// data: request,
-		dataType: "jsonp",//use jsonp to avoid cross origin issues
+		dataType: "jsonp",//<--* use jsonp to avoid cross origin issues *-->
 		type: "GET",
 	})
 
-	.done(function(result){ //this waits for the ajax to return with a succesful promise object
-		console.log("YISS",result)
+	.done(function(result){ //<--* this waits for the ajax to return with a succesful promise object *-->
+		// console.log("YISS",result)
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
 		$('.search-results').html(searchResults);
-		//$.each is a higher order function. It takes an array and a function as an argument.
-		//The function is executed once for each item in the array.
+		
+		//<--* $.each is a higher order function. It takes an array and a function as an argument.
+		//The function is executed once for each item in the array. *-->
 		$.each(result.items, function(i, item) {
 			var answerers = showAnswerer(item);
 			$('.results').append(answerers);
 		});
 	})
-	.fail(function(jqXHR, error){ //this waits for the ajax to return with an error promise object
+	.fail(function(jqXHR, error){ //<--* this waits for the ajax to return with an error promise object *-->
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
