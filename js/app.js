@@ -1,5 +1,13 @@
-$(document).ready( function() {	
-	$('.unanswered-getter').submit( function(e){
+
+var $ = require('jquery');
+var makeBackgroundGrey = require('./background');
+
+$(document).ready(() => {
+    makeBackgroundGrey();
+});
+
+$(document).ready(() => {	
+	$('.unanswered-getter').submit((e) => {
 		e.preventDefault();
 		//<--* zero out results if previous search has run *-->
 		$('.results').html('');
@@ -10,7 +18,7 @@ $(document).ready( function() {
 	});
 	
 
-	$('.inspiration-getter').submit( function(e){
+	$('.inspiration-getter').submit((e) => {
 		e.preventDefault();
 		//<--* zero out results if previous search has run *-->
 		$('.results').html('');
@@ -25,7 +33,7 @@ $(document).ready( function() {
 
 //<--* this function takes the question object returned by the StackOverflow request
 // and returns new result to be appended to DOM *-->
-var showQuestion = function(question) {
+var showQuestion = (question) => {
 	
 	//<--* clone our result template code *-->
 	var result = $('.templates .question').clone();
@@ -59,13 +67,13 @@ var showQuestion = function(question) {
 
 //<--* this function takes the results object from StackOverflow
 // and returns the number of results and tags to be appended to DOM *-->
-var showSearchResults = function(query, resultNum) {
+var showSearchResults = (query, resultNum) => {
 	var results = resultNum + ' results for <strong>' + query + '</strong>';
 	return results;
 };
 
 //<--* takes error string and turns it into displayable DOM element
-var showError = function(error){
+var showError = (error) => {
 	var errorElem = $('.templates .error').clone();
 	var errorText = '<p>' + error + '</p>';
 	errorElem.append(errorText);
@@ -75,7 +83,7 @@ var showError = function(error){
 
 //<--* this function takes the answerer object returned by the StackOverflow request
 // and returns new result to be appended to DOM *-->
-var showAnswerer = function(answerer) {
+var showAnswerer = (answerer) => {
 	
 	//<--* clone our result template code *-->
 	var result2 = $('.templates .answerer').clone();
@@ -111,7 +119,7 @@ var showAnswerer = function(answerer) {
 
 //<--* takes a string of semi-colon separated tags to be searched 
 // for on StackOverflow *-->
-var getUnanswered = function(tags) {
+var getUnanswered = (tags) => {
 
 	//<--* the parameters we need to pass in our request to StackOverflow's API *-->
 	var request = { 
@@ -128,15 +136,14 @@ var getUnanswered = function(tags) {
 		type: "POST",
 	})
 
-	.done(function(result){ //<--* this waits for the ajax to return with a succesful promise object *-->
-		console.log("YISS",result)
+	.done((result) => { //<--* this waits for the ajax to return with a succesful promise object *-->
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
 		$('.search-results').html(searchResults);
 		
 		//<--* $.each is a higher order function. It takes an array and a function as an argument. *-->
 		//The function is executed once for each item in the array.
-		$.each(result.items, function(i, item) {
+		$.each(result.items, (i, item) => {
 			var question = showQuestion(item);
 			$('.results').append(question);
 		});
@@ -148,7 +155,7 @@ var getUnanswered = function(tags) {
 	});
 };
 
-var getInspiration = function(tags){
+var getInspiration = (tags) => {
 	//<--* the parameters we need to pass in our request to StackOverflow's API *-->
 	var request = { 
 		tagged: tags,
@@ -164,7 +171,7 @@ var getInspiration = function(tags){
 		type: "GET",
 	})
 
-	.done(function(result){ //<--* this waits for the ajax to return with a succesful promise object *-->
+	.done((result) => { //<--* this waits for the ajax to return with a succesful promise object *-->
 		// console.log("YISS",result)
 		var searchResults = showSearchResults(request.tagged, result.items.length);
 
@@ -172,12 +179,12 @@ var getInspiration = function(tags){
 		
 		//<--* $.each is a higher order function. It takes an array and a function as an argument.
 		//The function is executed once for each item in the array. *-->
-		$.each(result.items, function(i, item) {
+		$.each(result.items, (i, item) => {
 			var answerers = showAnswerer(item);
 			$('.results').append(answerers);
 		});
 	})
-	.fail(function(jqXHR, error){ //<--* this waits for the ajax to return with an error promise object *-->
+	.fail((jqXHR, error) => { //<--* this waits for the ajax to return with an error promise object *-->
 		var errorElem = showError(error);
 		$('.search-results').append(errorElem);
 	});
